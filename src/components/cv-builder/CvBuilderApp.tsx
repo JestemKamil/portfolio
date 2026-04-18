@@ -125,7 +125,6 @@ function loadViewFromStorage(): ViewMode {
 export function CvBuilderApp() {
   const [data, setData] = useState<CvData>({ ...CV_BLANK });
   const [template, setTemplate] = useState<CvTemplateKey>("editorial");
-  const [dark, setDark] = useState(false);
   const [view, setView] = useState<ViewMode>("edit");
   const [tweaksOpen, setTweaksOpen] = useState(false);
   const [dialog, setDialog] = useState<DialogState>(null);
@@ -444,17 +443,9 @@ export function CvBuilderApp() {
                   </button>
                 ))}
               </div>
-              <button
-                type="button"
-                className="cvb-btn-icon"
-                title={dark ? "Tryb jasny" : "Tryb ciemny"}
-                onClick={() => setDark((previous) => !previous)}
-              >
-                <CvIcon name="sun" />
-              </button>
             </div>
             <div className="cvb-cv-wrap">
-              <div className={`cv-page ${dark ? "dark" : ""}`} data-template={template}>
+              <div className="cv-page" data-template={template}>
                 {empty ? (
                   <div className="cvb-cv-empty">
                     <p className="cvb-cv-empty-title">Twoje CV pojawi się tutaj</p>
@@ -474,7 +465,7 @@ export function CvBuilderApp() {
 
       {!empty ? (
         <div className="cvb-print-container">
-          <div className={`cv-page ${dark ? "dark" : ""}`} data-template={template}>
+          <div className="cv-page" data-template={template}>
             {renderTemplate(data)}
           </div>
         </div>
@@ -503,15 +494,6 @@ export function CvBuilderApp() {
               {value.label}
             </button>
           ))}
-        </div>
-        <div className="cvb-tweaks-row">
-          <span>Tryb ciemny</span>
-          <button
-            type="button"
-            className={`cvb-switch ${dark ? "on" : ""}`}
-            onClick={() => setDark((previous) => !previous)}
-            aria-label="Tryb ciemny"
-          />
         </div>
       </div>
 
