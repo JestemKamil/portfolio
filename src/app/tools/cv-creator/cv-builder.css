@@ -1053,86 +1053,6 @@
   margin: 0 auto;
 }
 
-.cv-page[data-template="split"] .cv-inner {
-  padding: 0;
-  display: grid;
-  grid-template-columns: max-content minmax(0, 1fr);
-}
-
-.cv-page[data-template="split"] .cv-sidebar {
-  background: #1a1a18;
-  color: #fafaf8;
-  padding: 36px 22px;
-  min-width: max-content;
-}
-
-.cv-page[data-template="split"] .cv-main {
-  padding: 36px 28px;
-}
-
-.cv-page[data-template="split"] .cv-name {
-  font-family: var(--ff-head);
-  font-size: 22px;
-  color: #fff;
-  margin-bottom: 4px;
-}
-
-.cv-page[data-template="split"] .cv-title {
-  font-size: 10px;
-  color: #7fb899;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  margin-bottom: 20px;
-}
-
-.cv-page[data-template="split"] .cv-side-section {
-  margin-bottom: 18px;
-}
-
-.cv-page[data-template="split"] .cv-side-head {
-  font-size: 9px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  font-weight: 600;
-  color: #7fb899;
-  margin-bottom: 8px;
-  padding-bottom: 4px;
-  border-bottom: 1px solid rgb(255 255 255 / 0.12);
-}
-
-.cv-page[data-template="split"] .cv-side-section p,
-.cv-page[data-template="split"] .cv-side-section li {
-  font-size: 9.5px;
-  color: rgb(255 255 255 / 0.8);
-  line-height: 1.55;
-  margin-bottom: 3px;
-  overflow-wrap: anywhere;
-  word-break: break-word;
-}
-
-.cv-page[data-template="split"] .cv-side-section ul {
-  list-style: none;
-  padding: 0;
-}
-
-.cv-page[data-template="split"] .cv-side-contact p {
-  white-space: nowrap;
-  overflow-wrap: normal;
-  word-break: normal;
-}
-
-.cv-page[data-template="split"] .cv-main-section {
-  margin-bottom: 14px;
-}
-
-.cv-page[data-template="split"] .cv-main-section .cv-section-head {
-  font-family: var(--ff-head);
-  font-size: 13px;
-  margin-bottom: 8px;
-  padding-bottom: 3px;
-  border-bottom: 1px solid #e8e8e2;
-}
-
 .cv-page[data-template="mono"] {
   font-family: var(--ff-mono);
   font-size: 9.8px;
@@ -1342,12 +1262,6 @@
   font-size: 8.3px;
   line-height: 1.45;
   color: #6a6a64;
-}
-
-.cv-page[data-template="split"] .cv-consent {
-  grid-column: 1 / -1;
-  margin: 0;
-  padding: 10px 28px 14px;
 }
 
 .cv-page.dark .cv-consent {

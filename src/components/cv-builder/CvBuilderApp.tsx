@@ -300,11 +300,11 @@ export function CvBuilderApp() {
         </Link>
         <span className="cvb-eyebrow">Kreator CV</span>
         <h1>
-          Zbuduj <em>CV</em> pod pracę
-          <strong>poza branżą IT.</strong>
+          Zbuduj <em>CV</em>, które
+          <strong>wyróżni Cię na rynku pracy.</strong>
         </h1>
         <p className="cvb-lede">
-          Prosty kreator dla osób szukających pracy w produkcji, handlu, magazynie i usługach.
+          Prosty kreator dla osób, które chcą szybko przygotować profesjonalne CV.
           Cztery szablony, eksport do PDF, dane zostają w Twojej przeglądarce.
         </p>
       </header>

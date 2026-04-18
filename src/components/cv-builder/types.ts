@@ -70,4 +70,4 @@ export type CvData = {
   certificates: CertificateItem[];
 };
 
-export type CvTemplateKey = "editorial" | "split" | "mono" | "compact" | "clean";
+export type CvTemplateKey = "editorial" | "mono" | "compact" | "clean";

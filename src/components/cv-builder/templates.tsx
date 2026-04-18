@@ -134,130 +134,6 @@ function EditorialTemplate({ data }: { data: CvData }) {
   );
 }
 
-function SplitTemplate({ data }: { data: CvData }) {
-  const { personal, summary, experience, education, skills, projects, languages, certificates } = data;
-  return (
-    <div className="cv-inner">
-      <div className="cv-sidebar">
-        <div className="cv-name">{personal.name || "Imię Nazwisko"}</div>
-        {personal.title ? <div className="cv-title">{personal.title}</div> : null}
-        <div className="cv-side-section cv-side-contact">
-          <div className="cv-side-head">Kontakt</div>
-          {[personal.email, personal.phone, personal.city, personal.website, personal.linkedin]
-            .filter(Boolean)
-            .map((value, index) => (
-              <p key={`${value}-${index}`}>{value}</p>
-            ))}
-        </div>
-        {skills.length ? (
-          <div className="cv-side-section">
-            <div className="cv-side-head">Umiejętności</div>
-            <ul>
-              {skills.map((skill) => (
-                <li key={skill}>· {skill}</li>
-              ))}
-            </ul>
-          </div>
-        ) : null}
-        {languages.length ? (
-          <div className="cv-side-section">
-            <div className="cv-side-head">Języki</div>
-            {languages.map((item, index) => (
-              <p key={`${item.name}-${index}`}>
-                {item.name}
-                {item.level ? (
-                  <>
-                    <br />
-                    <span className="cv-side-meta">{item.level}</span>
-                  </>
-                ) : null}
-              </p>
-            ))}
-          </div>
-        ) : null}
-        {certificates.length ? (
-          <div className="cv-side-section">
-            <div className="cv-side-head">Certyfikaty</div>
-            {certificates.map((item, index) => (
-              <p key={`${item.name}-${index}`}>
-                {item.name}
-                {item.issuer ? (
-                  <>
-                    <br />
-                    <span className="cv-side-meta">
-                      {item.issuer}
-                      {item.date ? ` · ${item.date}` : ""}
-                    </span>
-                  </>
-                ) : null}
-              </p>
-            ))}
-          </div>
-        ) : null}
-      </div>
-      <div className="cv-main">
-        {summary ? (
-          <div className="cv-main-section">
-            <div className="cv-section-head">Profil</div>
-            <div className="cv-entry-body">{summary}</div>
-          </div>
-        ) : null}
-        {experience.length ? (
-          <div className="cv-main-section">
-            <div className="cv-section-head">Doświadczenie</div>
-            {experience.map((item, index) => (
-              <div key={`${item.role}-${item.company}-${index}`} className="cv-entry">
-                <div className="cv-entry-head">
-                  <div>
-                    <span className="cv-entry-title">{item.role || "—"}</span>
-                    {item.company ? <span className="cv-entry-sub cv-muted"> · {item.company}</span> : null}
-                  </div>
-                  <span className="cv-entry-meta">{[item.from, item.to].filter(Boolean).join(" – ")}</span>
-                </div>
-                {item.desc ? <div className="cv-entry-body">{item.desc}</div> : null}
-              </div>
-            ))}
-          </div>
-        ) : null}
-        {projects.length ? (
-          <div className="cv-main-section">
-            <div className="cv-section-head">Dodatkowe atuty</div>
-            {projects.map((item, index) => (
-              <div key={`${item.name}-${item.role}-${index}`} className="cv-entry">
-                <div className="cv-entry-head">
-                  <div>
-                    <span className="cv-entry-title">{item.name || "—"}</span>
-                    {item.role ? <span className="cv-entry-sub cv-muted"> · {item.role}</span> : null}
-                  </div>
-                </div>
-                {item.desc ? <div className="cv-entry-body">{item.desc}</div> : null}
-              </div>
-            ))}
-          </div>
-        ) : null}
-        {education.length ? (
-          <div className="cv-main-section">
-            <div className="cv-section-head">Wykształcenie</div>
-            {education.map((item, index) => (
-              <div key={`${item.school}-${item.degree}-${index}`} className="cv-entry">
-                <div className="cv-entry-head">
-                  <div>
-                    <span className="cv-entry-title">{item.degree || item.school}</span>
-                    {item.degree && item.school ? <span className="cv-entry-sub cv-muted"> · {item.school}</span> : null}
-                  </div>
-                  <span className="cv-entry-meta">{[item.from, item.to].filter(Boolean).join(" – ")}</span>
-                </div>
-                {item.desc ? <div className="cv-entry-body">{item.desc}</div> : null}
-              </div>
-            ))}
-          </div>
-        ) : null}
-      </div>
-      <ConsentClause personal={personal} />
-    </div>
-  );
-}
-
 function MonoTemplate({ data }: { data: CvData }) {
   const { personal, summary, experience, education, skills, projects, languages, certificates } = data;
   return (
@@ -599,7 +475,6 @@ function CleanTemplate({ data }: { data: CvData }) {
 
 export const CV_TEMPLATES: Record<CvTemplateKey, { label: string; render: (data: CvData) => ReactNode }> = {
   editorial: { label: "Klasyczny", render: (data) => <EditorialTemplate data={data} /> },
-  split: { label: "Dwukolumnowy", render: (data) => <SplitTemplate data={data} /> },
   mono: { label: "Techniczny", render: (data) => <MonoTemplate data={data} /> },
   compact: { label: "Nowoczesny", render: (data) => <CompactTemplate data={data} /> },
   clean: { label: "Minimalny", render: (data) => <CleanTemplate data={data} /> },

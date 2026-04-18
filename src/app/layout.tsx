@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     template: "%s | Kamil Wąsik",
   },
   description:
-    "Portfolio web developera: projekty komercyjne i darmowe narzędzia online, w tym kreator CV pod pracę poza branżą IT.",
+    "Portfolio web developera: projekty komercyjne i darmowe narzędzia online, w tym kreator CV pod różne stanowiska.",
   alternates: {
     canonical: "/",
   },
@@ -63,6 +63,7 @@ export default function RootLayout({
   return (
     <html
       lang="pl"
+      data-scroll-behavior="smooth"
       className={`${inter.variable} ${jetBrainsMono.variable} ${playfairDisplay.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
