@@ -688,6 +688,13 @@
   height: auto;
   min-height: 100%;
   overflow: visible;
+  zoom: clamp(0.76, calc((100vh - 280px) / 980), 1);
+}
+
+@supports not (zoom: 1) {
+  .cv-page-preview {
+    font-size: clamp(8.2px, 1.05vh, 10.5px);
+  }
 }
 
 .cv-page.dark {
