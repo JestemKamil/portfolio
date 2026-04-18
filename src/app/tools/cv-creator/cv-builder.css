@@ -650,10 +650,10 @@
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: clamp(0.35rem, 1vw, 0.7rem);
-  flex: 1 1 auto;
-  min-height: 0;
-  overflow: auto;
-  max-height: none;
+  height: calc(100vh - 250px);
+  max-height: calc(100vh - 250px);
+  overflow-y: auto;
+  overflow-x: hidden;
   overscroll-behavior: contain;
   scrollbar-gutter: stable both-edges;
   position: relative;
@@ -681,10 +681,6 @@
   overflow: hidden;
   font-size: 10.5px;
   line-height: 1.45;
-}
-
-.cv-page-preview {
-  overflow-y: auto;
 }
 
 .cv-page.dark {
@@ -1344,6 +1340,7 @@
   }
 
   .cvb-cv-wrap {
+    height: min(74vh, 760px);
     max-height: min(74vh, 760px);
   }
 }
