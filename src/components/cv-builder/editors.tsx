@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { ReactNode } from "react";
+import { DEFAULT_RODO_CLAUSE } from "@/components/cv-builder/data";
 import { CvIcon } from "@/components/cv-builder/icons";
 import type {
   CertificateItem,
@@ -166,7 +167,7 @@ export function PersonalEditor({ data, update }: EditorProps<PersonalData>) {
         label="Stanowisko / tytuł"
         value={data.title}
         onChange={(value) => update({ ...data, title: value })}
-        placeholder="np. Senior Product Designer"
+        placeholder="np. Pracownik produkcji / asystent sprzedaży"
       />
       <div className="cvb-field-row">
         <TextField
@@ -191,18 +192,38 @@ export function PersonalEditor({ data, update }: EditorProps<PersonalData>) {
           placeholder="np. Warszawa"
         />
         <TextField
-          label="Strona www"
+          label="Strona / profil (opcjonalnie)"
           value={data.website}
           onChange={(value) => update({ ...data, website: value })}
-          placeholder="np. jan.design"
+          placeholder="np. twoj-profil.pl"
         />
       </div>
       <TextField
-        label="LinkedIn"
+        label="LinkedIn / profil zawodowy (opcjonalnie)"
         value={data.linkedin}
         onChange={(value) => update({ ...data, linkedin: value })}
         placeholder="np. linkedin.com/in/jankowalski"
       />
+      <div className="cvb-check">
+        <label className="cvb-check-label">
+          <input
+            type="checkbox"
+            checked={data.consentEnabled}
+            onChange={(event) => update({ ...data, consentEnabled: event.target.checked })}
+          />
+          <span>Dodaj klauzulę RODO na dole CV</span>
+        </label>
+        <div className="cvb-hint">W większości rekrutacji w Polsce taka zgoda jest wymagana.</div>
+      </div>
+      {data.consentEnabled ? (
+        <TextArea
+          label="Treść klauzuli RODO"
+          value={data.consentText}
+          onChange={(value) => update({ ...data, consentText: value })}
+          rows={3}
+          placeholder={DEFAULT_RODO_CLAUSE}
+        />
+      ) : null}
     </div>
   );
 }
@@ -212,13 +233,13 @@ export function SummaryEditor({ data, update }: EditorProps<string>) {
     <div>
       <div className="cvb-section-intro">
         <h3>Podsumowanie zawodowe</h3>
-        <p>2-4 zdania o tym, kim jesteś, co robisz i czego szukasz. Pierwsza rzecz, którą przeczyta rekruter.</p>
+        <p>2-4 krótkie zdania: kim jesteś, jakie masz doświadczenie i jakiej pracy szukasz.</p>
       </div>
       <TextArea
         value={data}
         onChange={update}
         rows={7}
-        placeholder="Product designer z 5-letnim doświadczeniem w..."
+        placeholder="Mam 4 lata doświadczenia w pracy na magazynie i szukam pracy zmianowej..."
         hint={`${data.length} / 500 znaków`}
       />
     </div>
@@ -235,7 +256,7 @@ export function ExperienceEditor({ data, update }: EditorProps<ExperienceItem[]>
     <div>
       <div className="cvb-section-intro">
         <h3>Doświadczenie zawodowe</h3>
-        <p>Najnowsze wpisy na górze. Trzymaj się konkretów: stanowisko, firma, okres, co udało się zrobić.</p>
+        <p>Najnowsze wpisy na górze. Krótko opisz obowiązki i efekty, bez trudnych sformułowań.</p>
       </div>
       {data.map((entry, index) => (
         <Entry key={`${entry.role}-${entry.company}-${index}`} title={entry.role || entry.company} onDelete={() => remove(index)}>
@@ -244,13 +265,13 @@ export function ExperienceEditor({ data, update }: EditorProps<ExperienceItem[]>
               label="Stanowisko"
               value={entry.role}
               onChange={(value) => set(index, { role: value })}
-              placeholder="np. Product Designer"
+              placeholder="np. Operator linii produkcyjnej"
             />
             <TextField
               label="Firma"
               value={entry.company}
               onChange={(value) => set(index, { company: value })}
-              placeholder="np. Allegro"
+              placeholder="np. ArcelorMittal Poland"
             />
           </div>
           <div className="cvb-field-row">
@@ -261,7 +282,7 @@ export function ExperienceEditor({ data, update }: EditorProps<ExperienceItem[]>
             label="Opis / osiągnięcia"
             value={entry.desc}
             onChange={(value) => set(index, { desc: value })}
-            placeholder="Czym się zajmowałeś/aś, jakie efekty..."
+            placeholder="Np. obsługa maszyn, kompletacja zamówień, obsługa klienta..."
           />
         </Entry>
       ))}
@@ -280,7 +301,7 @@ export function EducationEditor({ data, update }: EditorProps<EducationItem[]>) 
     <div>
       <div className="cvb-section-intro">
         <h3>Wykształcenie</h3>
-        <p>Uczelnie, szkoły, kierunki, stopnie.</p>
+        <p>Wpisz szkołę i kierunek. Możesz też dodać kursy lub praktyki.</p>
       </div>
       {data.map((entry, index) => (
         <Entry key={`${entry.school}-${entry.degree}-${index}`} title={entry.school || entry.degree} onDelete={() => remove(index)}>
@@ -288,13 +309,13 @@ export function EducationEditor({ data, update }: EditorProps<EducationItem[]>) 
             label="Uczelnia / szkoła"
             value={entry.school}
             onChange={(value) => set(index, { school: value })}
-            placeholder="np. Politechnika Warszawska"
+            placeholder="np. Technikum nr 2"
           />
           <TextField
             label="Kierunek / stopień"
             value={entry.degree}
             onChange={(value) => set(index, { degree: value })}
-            placeholder="np. Informatyka, inż."
+            placeholder="np. Technik mechanik"
           />
           <div className="cvb-field-row">
             <TextField label="Od" value={entry.from} onChange={(value) => set(index, { from: value })} placeholder="2018" />
@@ -321,7 +342,7 @@ export function SkillsEditor({ data, update }: EditorProps<string[]>) {
         <h3>Umiejętności</h3>
         <p>Wpisz umiejętność i naciśnij Enter albo przecinek, żeby dodać.</p>
       </div>
-      <PillEditor value={data} onChange={update} placeholder="Figma, React, Design Systems..." />
+      <PillEditor value={data} onChange={update} placeholder="Praca zmianowa, obsługa klienta, UDT, BHP..." />
     </div>
   );
 }
@@ -335,23 +356,23 @@ export function ProjectsEditor({ data, update }: EditorProps<ProjectItem[]>) {
   return (
     <div>
       <div className="cvb-section-intro">
-        <h3>Projekty</h3>
-        <p>Wybrane projekty, które najlepiej pokazują, co potrafisz.</p>
+        <h3>Dodatkowe atuty</h3>
+        <p>Dodaj osiągnięcia, dodatkowe obowiązki albo działania, którymi możesz się pochwalić.</p>
       </div>
       {data.map((entry, index) => (
         <Entry key={`${entry.name}-${entry.role}-${index}`} title={entry.name} onDelete={() => remove(index)}>
           <div className="cvb-field-row">
             <TextField
-              label="Nazwa projektu"
+              label="Nazwa osiągnięcia / działania"
               value={entry.name}
               onChange={(value) => set(index, { name: value })}
-              placeholder="np. Kassa — POS"
+              placeholder="np. Usprawnienie kompletacji zamówień"
             />
             <TextField
               label="Rola"
               value={entry.role}
               onChange={(value) => set(index, { role: value })}
-              placeholder="np. Lead Designer"
+              placeholder="np. Członek zespołu"
             />
           </div>
           <TextArea
@@ -359,7 +380,7 @@ export function ProjectsEditor({ data, update }: EditorProps<ProjectItem[]>) {
             value={entry.desc}
             onChange={(value) => set(index, { desc: value })}
             rows={3}
-            placeholder="Krótko — co to jest, co zrobiłeś/aś..."
+            placeholder="Krótko opisz, co zrobiłeś/aś i jaki był efekt."
           />
           <TextField
             label="Link (opcjonalnie)"
@@ -369,7 +390,7 @@ export function ProjectsEditor({ data, update }: EditorProps<ProjectItem[]>) {
           />
         </Entry>
       ))}
-      <AddButton label="Dodaj projekt" onClick={add} />
+      <AddButton label="Dodaj atut" onClick={add} />
     </div>
   );
 }
@@ -419,7 +440,7 @@ export function CertificatesEditor({ data, update }: EditorProps<CertificateItem
     <div>
       <div className="cvb-section-intro">
         <h3>Certyfikaty</h3>
-        <p>Ukończone szkolenia, kursy, akredytacje.</p>
+        <p>Ukończone kursy, szkolenia i uprawnienia (np. UDT, SEP, HACCP).</p>
       </div>
       {data.map((entry, index) => (
         <Entry key={`${entry.name}-${entry.issuer}-${index}`} title={entry.name} onDelete={() => remove(index)}>
@@ -427,14 +448,14 @@ export function CertificatesEditor({ data, update }: EditorProps<CertificateItem
             label="Nazwa"
             value={entry.name}
             onChange={(value) => set(index, { name: value })}
-            placeholder="np. NN/g UX Certification"
+            placeholder="np. Uprawnienia UDT na wózki widłowe"
           />
           <div className="cvb-field-row">
             <TextField
               label="Wystawca"
               value={entry.issuer}
               onChange={(value) => set(index, { issuer: value })}
-              placeholder="np. Nielsen Norman Group"
+              placeholder="np. UDT"
             />
             <TextField
               label="Rok"

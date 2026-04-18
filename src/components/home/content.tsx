@@ -4,7 +4,6 @@ import {
   LinkIcon,
   MailIcon,
   MessageIcon,
-  UsersIcon,
 } from "@/components/home/icons";
 import type {
   ContactChannel,
@@ -117,9 +116,9 @@ export const projects: Project[] = [
 
 export const tools: Tool[] = [
   {
-    name: "CV Creator",
+    name: "Kreator CV",
     description:
-      "Stwórz profesjonalne CV w kilka minut. Wybierz szablon, wypełnij dane, pobierz gotowy PDF. Bez watermarków, bez zakładania konta.",
+      "Stwórz CV pod pracę w produkcji, handlu, magazynie lub usługach. Wybierz szablon, uzupełnij dane, pobierz PDF. Bez konta i bez opłat.",
     status: "live",
     icon: <DocumentIcon />,
     href: "/tools/cv-creator",
@@ -127,10 +126,9 @@ export const tools: Tool[] = [
   {
     name: "Kreator Listu Motywacyjnego",
     description:
-      "Uzupełnij kilka pól — narzędzie wygeneruje spójny, dobrze napisany list motywacyjny dopasowany do konkretnej oferty pracy i branży.",
-    status: "live",
+      "Już wkrótce: kreator listu motywacyjnego, który po uzupełnieniu kilku pól wygeneruje spójny list dopasowany do oferty pracy i branży.",
+    status: "soon",
     icon: <MessageIcon />,
-    href: "#",
   },
   {
     name: "Kalkulator Wynagrodzeń",
@@ -138,13 +136,6 @@ export const tools: Tool[] = [
       "Porównaj formy zatrudnienia — UoP, B2B, umowa zlecenie. Przelicz brutto/netto i sprawdź realny koszt po stronie pracodawcy.",
     status: "soon",
     icon: <ClockIcon />,
-  },
-  {
-    name: "LinkedIn Bio Generator",
-    description:
-      'Wygeneruj sekcję "O mnie" na LinkedIn — zwięzłą, profesjonalną i zoptymalizowaną pod algorytmy wyszukiwania rekruterów.',
-    status: "soon",
-    icon: <UsersIcon />,
   },
 ];
 

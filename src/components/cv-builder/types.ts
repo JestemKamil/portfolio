@@ -21,6 +21,8 @@ export type PersonalData = {
   city: string;
   website: string;
   linkedin: string;
+  consentEnabled: boolean;
+  consentText: string;
 };
 
 export type ExperienceItem = {
@@ -68,4 +70,4 @@ export type CvData = {
   certificates: CertificateItem[];
 };
 
-export type CvTemplateKey = "editorial" | "split" | "mono" | "compact";
+export type CvTemplateKey = "editorial" | "split" | "mono" | "compact" | "clean";

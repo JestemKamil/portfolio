@@ -3,6 +3,8 @@ import type { CvData, CvSection, CvSectionKey } from "@/components/cv-builder/ty
 export const CV_STORAGE_KEY = "cv-builder-v1";
 export const CV_TEMPLATE_KEY = "cv-template";
 export const CV_VIEW_KEY = "cv-view";
+export const DEFAULT_RODO_CLAUSE =
+  "Wyrażam zgodę na przetwarzanie moich danych osobowych zawartych w CV dla potrzeb niezbędnych do realizacji procesu rekrutacji (zgodnie z art. 6 ust. 1 lit. a RODO).";
 
 export const CV_SECTIONS: CvSection[] = [
   { key: "personal", label: "Dane" },
@@ -10,7 +12,7 @@ export const CV_SECTIONS: CvSection[] = [
   { key: "experience", label: "Doświadczenie" },
   { key: "education", label: "Edukacja" },
   { key: "skills", label: "Umiejętności" },
-  { key: "projects", label: "Projekty" },
+  { key: "projects", label: "Dodatkowe atuty" },
   { key: "languages", label: "Języki" },
   { key: "certificates", label: "Certyfikaty" },
 ];
@@ -24,6 +26,8 @@ export const CV_BLANK: CvData = {
     city: "",
     website: "",
     linkedin: "",
+    consentEnabled: true,
+    consentText: DEFAULT_RODO_CLAUSE,
   },
   summary: "",
   experience: [],
@@ -36,77 +40,80 @@ export const CV_BLANK: CvData = {
 
 export const CV_SAMPLE: CvData = {
   personal: {
-    name: "Anna Kowalska",
-    title: "Senior Product Designer",
-    email: "anna.kowalska@example.com",
-    phone: "+48 600 123 456",
-    city: "Warszawa, PL",
-    website: "anna.design",
-    linkedin: "linkedin.com/in/akowalska",
+    name: "Piotr Nowak",
+    title: "Pracownik produkcji / asystent sprzedaży",
+    email: "piotr.nowak@example.com",
+    phone: "+48 602 123 456",
+    city: "Dąbrowa Górnicza",
+    website: "",
+    linkedin: "",
+    consentEnabled: true,
+    consentText: DEFAULT_RODO_CLAUSE,
   },
   summary:
-    "Product designer z 7-letnim doświadczeniem w budowaniu produktów cyfrowych — od wczesnych prototypów po systemy dla milionów użytkowników. Łączę research, UI i strategię. Najchętniej pracuję tam, gdzie design spotyka realne ograniczenia biznesu.",
+    "Mam 6 lat doświadczenia w pracy zmianowej w produkcji i handlu. Jestem punktualny, dobrze odnajduję się w zespole i szybko wdrażam się w nowe obowiązki. Szukam stabilnej pracy, w której liczy się solidność i odpowiedzialność.",
   experience: [
     {
-      role: "Senior Product Designer",
-      company: "Allegro",
+      role: "Operator linii produkcyjnej",
+      company: "ArcelorMittal Poland",
       from: "2022",
       to: "obecnie",
-      desc: "Prowadzę design systemu dla obszaru płatności. Zredukowałam czas onboardingu sprzedawców o 34%.",
+      desc: "Obsługa i kontrola linii produkcyjnej, raportowanie awarii, utrzymanie porządku na stanowisku. Praca w systemie 3-zmianowym.",
     },
     {
-      role: "Product Designer",
-      company: "Brainly",
+      role: "Asystent sprzedaży",
+      company: "Leroy Merlin",
       from: "2019",
       to: "2022",
-      desc: "Rebuild aplikacji mobilnej (iOS + Android). Współpraca z zespołem badawczym nad wzrostem retencji.",
+      desc: "Obsługa klienta na sali sprzedaży, doradztwo produktowe, przyjęcia dostaw i wykładanie towaru.",
     },
     {
-      role: "UI Designer",
-      company: "Netguru",
+      role: "Magazynier",
+      company: "Raben Logistics",
       from: "2017",
       to: "2019",
-      desc: "Projekty dla startupów z UK i DACH — fintech, e-commerce, health.",
+      desc: "Kompletacja zamówień, skanowanie towaru, przygotowanie wysyłek i współpraca z działem transportu.",
     },
   ],
   education: [
     {
-      school: "ASP Warszawa",
-      degree: "Projektowanie graficzne, mgr",
-      from: "2014",
-      to: "2019",
-      desc: "",
+      school: "Technikum nr 2",
+      degree: "Technik mechanik",
+      from: "2013",
+      to: "2017",
+      desc: "Praktyki zawodowe w zakładzie produkcyjnym.",
     },
   ],
   skills: [
-    "Figma",
-    "Design Systems",
-    "Prototyping",
-    "User Research",
-    "Framer",
-    "HTML/CSS",
-    "Accessibility",
+    "Praca zmianowa",
+    "Obsługa skanera magazynowego",
+    "Dokładność i dobra organizacja",
+    "Obsługa klienta",
+    "Przestrzeganie zasad BHP",
+    "Współpraca w zespole",
   ],
   projects: [
     {
-      name: "Kassa — system POS",
-      role: "Lead Designer",
-      desc: "Design system i aplikacja kasowa dla sieci 120 kawiarni.",
+      name: "Skrócenie czasu kompletacji",
+      role: "Członek zespołu usprawnień",
+      desc: "Wspólnie z brygadzistą uporządkowałem strefy odkładcze, co usprawniło przygotowanie wysyłek.",
       link: "",
     },
     {
-      name: "Mint Health",
-      role: "Product Designer",
-      desc: "Telemedycyna dla zdrowia psychicznego, aplikacja iOS.",
+      name: "Wsparcie wdrożenia nowych osób",
+      role: "Opiekun stanowiskowy",
+      desc: "Pomagałem przy wdrożeniu nowych pracowników na zmianie i przekazywałem standardy pracy.",
       link: "",
     },
   ],
   languages: [
     { name: "Polski", level: "Ojczysty" },
-    { name: "Angielski", level: "C1" },
-    { name: "Niemiecki", level: "B1" },
+    { name: "Angielski", level: "Podstawowy (A2)" },
   ],
-  certificates: [{ name: "NN/g UX Certification", issuer: "Nielsen Norman Group", date: "2023" }],
+  certificates: [
+    { name: "Uprawnienia UDT na wózki widłowe", issuer: "UDT", date: "2024" },
+    { name: "Książeczka sanepidowska", issuer: "Sanepid", date: "2023" },
+  ],
 };
 
 export function sectionHasContent(key: CvSectionKey, data: CvData): boolean {

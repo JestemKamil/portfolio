@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import Link from "next/link";
 import type { ContactChannel, HeroStat, Project, Tool } from "@/components/home/types";
 
 export function Divider() {
@@ -86,6 +87,7 @@ export function ToolCard({ tool }: ToolCardProps) {
   const cardClassName = `tool-card ${isLive ? "live" : "soon"}`;
   const badgeClassName = `tool-badge ${isLive ? "live-badge" : "soon-badge"}`;
   const badgeText = isLive ? "Dostępne" : "Wkrótce";
+  const isInternalToolLink = Boolean(tool.href && tool.href.startsWith("/"));
 
   return (
     <div className={cardClassName}>
@@ -93,10 +95,16 @@ export function ToolCard({ tool }: ToolCardProps) {
       <div className="tool-icon-wrap">{tool.icon}</div>
       <h3 className="tool-name">{tool.name}</h3>
       <p className="tool-desc">{tool.description}</p>
-      {tool.href ? (
-        <a href={tool.href} className="tool-link">
-          Otwórz narzędzie →
-        </a>
+      {isLive && tool.href ? (
+        isInternalToolLink ? (
+          <Link href={tool.href} className="tool-link">
+            Przejdź do narzędzia →
+          </Link>
+        ) : (
+          <a href={tool.href} className="tool-link" target="_blank" rel="noreferrer">
+            Przejdź do narzędzia →
+          </a>
+        )
       ) : null}
     </div>
   );

@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio — Kamil Wąsik
 
-## Getting Started
+Portfolio web developera z sekcją projektów i narzędziami online:
+- **Kreator CV** (`/tools/cv-creator`) — dostępny
+- **Kreator Listu Motywacyjnego** — **już wkrótce**
 
-First, run the development server:
+## Stack
+
+- Next.js 16 (App Router)
+- React 19
+- TypeScript
+- Tailwind CSS 4
+
+## Uruchomienie lokalnie
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Aplikacja lokalnie: `http://localhost:3000`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Walidacja przed wdrożeniem
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run lint
+npm run build
+```
 
-## Learn More
+## SEO i metadane
 
-To learn more about Next.js, take a look at the following resources:
+W projekcie są skonfigurowane:
+- metadane strony (`src/app/layout.tsx`)
+- `robots.txt` (`src/app/robots.ts`)
+- `sitemap.xml` (`src/app/sitemap.ts`)
+- `manifest.webmanifest` (`src/app/manifest.ts`)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Wdrożenie na Vercel
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Podłącz repozytorium w Vercel.
+2. Ustaw framework: **Next.js** (auto-detect).
+3. Upewnij się, że produkcyjna domena to `https://kamil-wasik.pl`.
+4. Wykonaj deploy i sprawdź ścieżki:
+   - `/`
+   - `/tools/cv-creator`
+   - `/privacy`
+   - `/robots.txt`
+   - `/sitemap.xml`
 
-## Deploy on Vercel
+## Checklista release (produkcyjna)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. `npm run lint` i `npm run build` przechodzą bez błędów.
+2. Brak martwych linków i placeholderów `#`.
+3. Narzędzia mają poprawne statusy (dostępne vs wkrótce).
+4. Metadane strony i sitemap są aktualne.
+5. Po wdrożeniu wykonany smoke test kluczowych podstron.
+6. Monitoring i alerty skonfigurowane po stronie Vercel (Analytics / Logs / Alerts).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Prywatność
+
+Strona prywatności: `/privacy`.
+
+Kreator CV przechowuje wpisane dane lokalnie w przeglądarce (localStorage), bez wysyłania ich do backendu aplikacji.

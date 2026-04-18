@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
-import type { RefObject } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { MainHeader } from "@/components/home/MainHeader";
 import {
@@ -82,45 +81,6 @@ function Dialog({
   );
 }
 
-function useScrollSpy(keys: CvSectionKey[], scrollerRef: RefObject<HTMLElement | null>) {
-  const [active, setActive] = useState<CvSectionKey>(keys[0]);
-
-  useEffect(() => {
-    const scroller = scrollerRef.current;
-    if (!scroller) {
-      return;
-    }
-
-    const onScroll = () => {
-      const probe = scroller.getBoundingClientRect().top + 120;
-      let current = keys[0];
-
-      for (const key of keys) {
-        const element = document.getElementById(`cvb-sec-${key}`);
-        if (!element) {
-          continue;
-        }
-        if (element.getBoundingClientRect().top <= probe) {
-          current = key;
-        }
-      }
-
-      setActive(current);
-    };
-
-    scroller.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-
-    return () => {
-      scroller.removeEventListener("scroll", onScroll);
-      window.removeEventListener("scroll", onScroll);
-    };
-  }, [keys, scrollerRef]);
-
-  return [active, setActive] as const;
-}
-
 function loadDataFromStorage(): CvData {
   if (typeof window === "undefined") {
     return { ...CV_BLANK };
@@ -163,33 +123,82 @@ function loadViewFromStorage(): ViewMode {
 }
 
 export function CvBuilderApp() {
-  const [data, setData] = useState<CvData>(loadDataFromStorage);
-  const [template, setTemplate] = useState<CvTemplateKey>(loadTemplateFromStorage);
+  const [data, setData] = useState<CvData>({ ...CV_BLANK });
+  const [template, setTemplate] = useState<CvTemplateKey>("editorial");
   const [dark, setDark] = useState(false);
-  const [view, setView] = useState<ViewMode>(loadViewFromStorage);
+  const [view, setView] = useState<ViewMode>("edit");
   const [tweaksOpen, setTweaksOpen] = useState(false);
   const [dialog, setDialog] = useState<DialogState>(null);
   const [toast, setToast] = useState("");
+  const [storageReady, setStorageReady] = useState(false);
+  const [activeSection, setActiveSection] = useState<CvSectionKey>("personal");
 
   const editorScrollRef = useRef<HTMLElement>(null);
-  const sectionKeys = useMemo(() => CV_SECTIONS.map((section) => section.key), []);
-  const [activeSection, setActiveSection] = useScrollSpy(sectionKeys, editorScrollRef);
 
   useEffect(() => {
+    const frame = window.requestAnimationFrame(() => {
+      setData(loadDataFromStorage());
+      setTemplate(loadTemplateFromStorage());
+      setView(loadViewFromStorage());
+      setStorageReady(true);
+    });
+
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
+
+  useEffect(() => {
+    if (!storageReady) {
+      return;
+    }
     try {
       window.localStorage.setItem(CV_STORAGE_KEY, JSON.stringify(data));
     } catch (error) {
       console.error("Cannot save CV data", error);
     }
-  }, [data]);
+  }, [data, storageReady]);
 
   useEffect(() => {
+    if (!storageReady) {
+      return;
+    }
     window.localStorage.setItem(CV_TEMPLATE_KEY, template);
-  }, [template]);
+  }, [template, storageReady]);
 
   useEffect(() => {
+    if (!storageReady) {
+      return;
+    }
     window.localStorage.setItem(CV_VIEW_KEY, view);
-  }, [view]);
+  }, [view, storageReady]);
+
+  useEffect(() => {
+    const idToSection = new Map<string, CvSectionKey>(
+      CV_SECTIONS.map((section) => [`cvb-sec-${section.key}`, section.key]),
+    );
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) {
+            continue;
+          }
+          const key = idToSection.get(entry.target.id);
+          if (key) {
+            setActiveSection(key);
+          }
+        }
+      },
+      { rootMargin: "-25% 0px -55% 0px", threshold: [0.2, 0.5] },
+    );
+
+    for (const section of CV_SECTIONS) {
+      const element = document.getElementById(`cvb-sec-${section.key}`);
+      if (element) {
+        observer.observe(element);
+      }
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   const showToast = (message: string) => {
     setToast(message);
@@ -206,6 +215,7 @@ export function CvBuilderApp() {
   };
 
   const jumpTo = (key: CvSectionKey) => {
+    setActiveSection(key);
     const element = document.getElementById(`cvb-sec-${key}`);
     const scroller = editorScrollRef.current;
     if (!element || !scroller) {
@@ -221,14 +231,12 @@ export function CvBuilderApp() {
     } else {
       window.scrollBy({ top: elementTop - 88, behavior: "smooth" });
     }
-
-    setActiveSection(key);
   };
 
   const askLoadSample = () =>
     setDialog({
       title: "Wczytać przykładowe dane?",
-      body: "Zobaczysz jak wygląda wypełnione CV. Obecne dane zostaną zastąpione.",
+      body: "Zobaczysz przykładowe CV pod pracę w produkcji, handlu lub usługach. Obecne dane zostaną zastąpione.",
       confirmLabel: "Wczytaj przykład",
       onConfirm: () => {
         setData({ ...CV_SAMPLE });
@@ -292,12 +300,12 @@ export function CvBuilderApp() {
         </Link>
         <span className="cvb-eyebrow">Kreator CV</span>
         <h1>
-          Zbuduj swoje <em>CV</em>
-          <strong>w kilka minut.</strong>
+          Zbuduj <em>CV</em> pod pracę
+          <strong>poza branżą IT.</strong>
         </h1>
         <p className="cvb-lede">
-          Prosty kreator, cztery przemyślane szablony, eksport do PDF. Dane zostają u Ciebie i nie
-          opuszczają przeglądarki.
+          Prosty kreator dla osób szukających pracy w produkcji, handlu, magazynie i usługach.
+          Cztery szablony, eksport do PDF, dane zostają w Twojej przeglądarce.
         </p>
       </header>
 
@@ -358,12 +366,11 @@ export function CvBuilderApp() {
             <ul className="cvb-side-nav-list">
               {CV_SECTIONS.map((section, index) => {
                 const filled = sectionHasContent(section.key, data);
-                const isActive = activeSection === section.key;
                 return (
                   <li key={section.key}>
                     <button
                       type="button"
-                      className={`cvb-side-nav-item ${isActive ? "active" : ""} ${filled ? "filled" : ""}`}
+                      className={`cvb-side-nav-item ${filled ? "filled" : ""} ${activeSection === section.key ? "active" : ""}`}
                       onClick={() => jumpTo(section.key)}
                     >
                       <span className="cvb-side-nav-marker">
@@ -452,7 +459,7 @@ export function CvBuilderApp() {
                   <div className="cvb-cv-empty">
                     <p className="cvb-cv-empty-title">Twoje CV pojawi się tutaj</p>
                     <p>
-                      Zacznij od sekcji <strong>Dane</strong>, albo kliknij <em>Przykład</em>.
+                      Zacznij od sekcji <strong>Dane</strong> i wpisz stanowisko, albo kliknij <em>Przykład</em>.
                     </p>
                   </div>
                 ) : (
@@ -476,9 +483,9 @@ export function CvBuilderApp() {
       <footer className="cvb-footer">
         <div>© 2026 Kamil Wąsik · Zaprojektowane i zbudowane w Warszawie</div>
         <div className="cvb-footer-links">
-          <a href="#">Prywatność</a>
-          <a href="#">GitHub</a>
-          <a href="#">LinkedIn</a>
+          <Link href="/privacy">Prywatność</Link>
+          <Link href="/#contact">Kontakt</Link>
+          <Link href="/">Portfolio</Link>
         </div>
       </footer>
 
