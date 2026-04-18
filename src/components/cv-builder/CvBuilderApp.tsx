@@ -445,7 +445,7 @@ export function CvBuilderApp() {
               </div>
             </div>
             <div className="cvb-cv-wrap">
-              <div className="cv-page" data-template={template}>
+              <div className="cv-page cv-page-preview" data-template={template}>
                 {empty ? (
                   <div className="cvb-cv-empty">
                     <p className="cvb-cv-empty-title">Twoje CV pojawi się tutaj</p>
