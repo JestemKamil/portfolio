@@ -683,6 +683,10 @@
   line-height: 1.45;
 }
 
+.cv-page-preview {
+  overflow-y: auto;
+}
+
 .cv-page.dark {
   background: #141412;
   color: #e8e8e2;
