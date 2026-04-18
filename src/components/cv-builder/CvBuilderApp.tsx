@@ -126,7 +126,6 @@ export function CvBuilderApp() {
   const [data, setData] = useState<CvData>({ ...CV_BLANK });
   const [template, setTemplate] = useState<CvTemplateKey>("editorial");
   const [view, setView] = useState<ViewMode>("edit");
-  const [tweaksOpen, setTweaksOpen] = useState(false);
   const [dialog, setDialog] = useState<DialogState>(null);
   const [toast, setToast] = useState("");
   const [storageReady, setStorageReady] = useState(false);
@@ -521,23 +520,6 @@ export function CvBuilderApp() {
           <Link href="/">Portfolio</Link>
         </div>
       </footer>
-
-      <button type="button" className="cvb-tweaks-toggle" onClick={() => setTweaksOpen((previous) => !previous)}>
-        <CvIcon name="sliders" />
-        {tweaksOpen ? "Zamknij" : "Personalizuj"}
-      </button>
-
-      <div className={`cvb-tweaks ${tweaksOpen ? "open" : ""}`}>
-        <span className="cvb-eyebrow">Personalizacja</span>
-        <h4>Szablon CV</h4>
-        <div className="cvb-tweaks-grid">
-          {Object.entries(CV_TEMPLATES).map(([key, value]) => (
-            <button key={key} type="button" className={template === key ? "active" : ""} onClick={() => setTemplate(key as CvTemplateKey)}>
-              {value.label}
-            </button>
-          ))}
-        </div>
-      </div>
 
       <Dialog
         open={Boolean(dialog)}
