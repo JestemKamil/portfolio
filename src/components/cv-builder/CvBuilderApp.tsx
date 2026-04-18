@@ -133,6 +133,7 @@ export function CvBuilderApp() {
   const [activeSection, setActiveSection] = useState<CvSectionKey>("personal");
 
   const editorScrollRef = useRef<HTMLElement>(null);
+  const previewWrapRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const frame = window.requestAnimationFrame(() => {
@@ -198,6 +199,47 @@ export function CvBuilderApp() {
 
     return () => observer.disconnect();
   }, []);
+
+  useEffect(() => {
+    const wrap = previewWrapRef.current;
+    if (!wrap || typeof ResizeObserver === "undefined") {
+      return;
+    }
+
+    const page = wrap.querySelector<HTMLElement>(".cv-page-preview");
+    if (!page) {
+      return;
+    }
+
+    let frame = 0;
+    const updateScale = () => {
+      window.cancelAnimationFrame(frame);
+      frame = window.requestAnimationFrame(() => {
+        page.style.setProperty("zoom", "1");
+
+        const availableWidth = Math.max(wrap.clientWidth - 16, 1);
+        const availableHeight = Math.max(wrap.clientHeight - 16, 1);
+        const contentWidth = Math.max(page.scrollWidth, 1);
+        const contentHeight = Math.max(Math.min(page.scrollHeight, 1120), 1);
+
+        const widthScale = availableWidth / contentWidth;
+        const heightScale = availableHeight / contentHeight;
+        const scale = Math.max(0.72, Math.min(1, widthScale, heightScale));
+        page.style.setProperty("zoom", scale.toFixed(3));
+      });
+    };
+
+    const observer = new ResizeObserver(updateScale);
+    observer.observe(wrap);
+    observer.observe(page);
+    updateScale();
+
+    return () => {
+      observer.disconnect();
+      window.cancelAnimationFrame(frame);
+      page.style.removeProperty("zoom");
+    };
+  }, [data, template, view]);
 
   const showToast = (message: string) => {
     setToast(message);
@@ -444,7 +486,7 @@ export function CvBuilderApp() {
                 ))}
               </div>
             </div>
-            <div className="cvb-cv-wrap">
+            <div className="cvb-cv-wrap" ref={previewWrapRef}>
               <div className="cv-page cv-page-preview" data-template={template}>
                 {empty ? (
                   <div className="cvb-cv-empty">
