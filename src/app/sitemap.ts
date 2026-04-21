@@ -17,6 +17,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      url: "https://kamil-wasik.pl/tools/motivation-letter",
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
       url: "https://kamil-wasik.pl/privacy",
       lastModified,
       changeFrequency: "monthly",

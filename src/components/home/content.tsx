@@ -126,9 +126,10 @@ export const tools: Tool[] = [
   {
     name: "Kreator Listu Motywacyjnego",
     description:
-      "Już wkrótce: kreator listu motywacyjnego, który po uzupełnieniu kilku pól wygeneruje spójny list dopasowany do oferty pracy i branży.",
-    status: "soon",
+      "Wypełnij kilka pól i pobierz gotowy, profesjonalny list motywacyjny w formacie PDF. Podgląd na żywo, dane zostają w Twojej przeglądarce.",
+    status: "live",
     icon: <MessageIcon />,
+    href: "/tools/motivation-letter",
   },
   {
     name: "Kalkulator Wynagrodzeń",
